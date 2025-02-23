@@ -41,7 +41,7 @@ public class FirstTest {
     }
 
     @Test
-    public void firstTest()
+    public void searchText()
     {
         waitForElementAndClick(
                 By.id("org.wikipedia:id/fragment_onboarding_skip_button"),
@@ -113,13 +113,13 @@ public class FirstTest {
         return element;
     }
 
-    private WebElement assertElementHasText (WebElement element, String expected_text, String error_message)
+    private void assertElementHasText (WebElement element, String expected_text, String error_message)
     {
         String search_text = element.getAttribute("text");
         Assert.assertTrue(
-                error_message,search_text.contains(expected_text)
+                error_message,
+                search_text.contains(expected_text)
         );
-        return element;
     }
 }
 
