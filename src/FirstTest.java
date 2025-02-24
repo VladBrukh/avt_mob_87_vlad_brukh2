@@ -41,7 +41,7 @@ public class FirstTest {
     }
 
     @Test
-    public void cancelSearch()
+    public void searchResult()
     {
         waitForElementAndClick(
                 By.id("org.wikipedia:id/fragment_onboarding_skip_button"),
@@ -62,37 +62,51 @@ public class FirstTest {
                 15
         );
 
-        waitForElementPresent(
+        waitForElementHasWord(
                 By.xpath("//*[@class='android.view.ViewGroup']" +
-                        "//*[contains(@text,'Island in Indonesia')]"),
-                "Cannot find article 'Java island in Indonesia' searching by text 'Java'",
+                        "//*[@text='Java']"),
+                "Java",
+                "The article with 'Java' title does not exist",
                 15
         );
 
-        waitForElementPresent(
+        waitForElementHasWord(
                 By.xpath("//*[@class='android.view.ViewGroup']" +
-                        "//*[contains(@text,'List of versions of the Java programming language')]"),
-                "Cannot find article 'Java version history' searching by text 'Java'",
-        15
-        );
-
-        waitForElementAndClear(
-                By.id("org.wikipedia:id/search_src_text"),
-                "Cannot find search field",
-                5
-        );
-
-        waitForElementNotPresent(
-                By.xpath("//*[@class='android.view.ViewGroup']" +
-                        "//*[contains(@text,'Island in Indonesia')]"),
-                "The article 'Java island in Indonesia' is still visible",
+                        "//*[@text='Java (programming language)']"),
+                "Java",
+                "The article with 'Java (programming language)' title does not exist",
                 15
         );
 
-        waitForElementNotPresent(
+        waitForElementHasWord(
                 By.xpath("//*[@class='android.view.ViewGroup']" +
-                        "//*[contains(@text,'List of versions of the Java programming language')]"),
-                "The article 'Java version history' is still visible",
+                        "//*[@text='JavaScript']"),
+                "Java",
+                "The article with 'JavaScript' title does not exist",
+                15
+        );
+
+        waitForElementHasWord(
+                By.xpath("//*[@class='android.view.ViewGroup']" +
+                        "//*[@text='Java version history']"),
+                "Java",
+                "The article with 'Java version history' title does not exist",
+                15
+        );
+
+        waitForElementHasWord(
+                By.xpath("//*[@class='android.view.ViewGroup']" +
+                        "//*[@text='Javanese language']"),
+                "Java",
+                "The article with 'Javanese language' title does not exist",
+                15
+        );
+
+        waitForElementHasWord(
+                By.xpath("//*[@class='android.view.ViewGroup']" +
+                        "//*[@text='Java (software platform)']"),
+                "Java",
+                "The article with 'Java (software platform)' title does not exist",
                 15
         );
 
@@ -149,6 +163,13 @@ public class FirstTest {
                 error_message,
                 search_text.contains(expected_text)
         );
+    }
+
+    private void waitForElementHasWord(By by, String word, String error_message, long timeoutInSeconds)
+    {
+        WebElement element = waitForElementPresent(by, error_message, timeoutInSeconds);
+        String article = element.getAttribute("text");
+        Assert.assertTrue("The article " + article + " does not contain word " + word,article.contains(word));
     }
 }
 
