@@ -41,7 +41,7 @@ public class FirstTest {
     }
 
     @Test
-    public void searchText()
+    public void cancelSearch()
     {
         waitForElementAndClick(
                 By.id("org.wikipedia:id/fragment_onboarding_skip_button"),
@@ -55,16 +55,45 @@ public class FirstTest {
                 5
         );
 
-        WebElement search_field = waitForElementPresent(
+        waitForElementAndSendKeys(
                 By.id("org.wikipedia:id/search_src_text"),
+                "Java",
                 "Cannot find search input",
+                15
+        );
+
+        waitForElementPresent(
+                By.xpath("//*[@class='android.view.ViewGroup']" +
+                        "//*[contains(@text,'Island in Indonesia')]"),
+                "Cannot find article 'Java island in Indonesia' searching by text 'Java'",
+                15
+        );
+
+        waitForElementPresent(
+                By.xpath("//*[@class='android.view.ViewGroup']" +
+                        "//*[contains(@text,'List of versions of the Java programming language')]"),
+                "Cannot find article 'Java version history' searching by text 'Java'",
+        15
+        );
+
+        waitForElementAndClear(
+                By.id("org.wikipedia:id/search_src_text"),
+                "Cannot find search field",
                 5
         );
 
-        assertElementHasText(
-                search_field,
-                "Search Wikipedia",
-                "The text \"Search Wikipedia\" is not found in the search field"
+        waitForElementNotPresent(
+                By.xpath("//*[@class='android.view.ViewGroup']" +
+                        "//*[contains(@text,'Island in Indonesia')]"),
+                "The article 'Java island in Indonesia' is still visible",
+                15
+        );
+
+        waitForElementNotPresent(
+                By.xpath("//*[@class='android.view.ViewGroup']" +
+                        "//*[contains(@text,'List of versions of the Java programming language')]"),
+                "The article 'Java version history' is still visible",
+                15
         );
 
     }
