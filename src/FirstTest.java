@@ -380,8 +380,10 @@ public class FirstTest {
     }
 
     @Test
-    public void assertTitleFound()
+    public void changeScreenOrientation()
     {
+
+        checkScreenOrientation();
 
         waitForElementAndClick(
                 By.id("org.wikipedia:id/fragment_onboarding_skip_button"),
@@ -572,6 +574,14 @@ public class FirstTest {
 
         }
 
+    }
+
+    public void checkScreenOrientation()
+    {
+        ScreenOrientation orientation = driver.getOrientation();
+        if(orientation == ScreenOrientation.LANDSCAPE) {
+            driver.rotate(ScreenOrientation.PORTRAIT);
+        }
     }
 
 }
