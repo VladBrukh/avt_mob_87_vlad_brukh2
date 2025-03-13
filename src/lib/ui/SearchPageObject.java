@@ -12,6 +12,8 @@ public class SearchPageObject extends MainPageObject
             SEARCH_CANCEL_BUTTON = "org.wikipedia:id/search_close_btn",
             SEARCH_RESULT_BY_SUBSTRING_TPL = "//*[@class='android.view.ViewGroup']" +
                     "//*[@text='{SUBSTRING}'][@instance!='0']",
+            SEARCH_RESULT_BY_SUBSTRING_AND_DESCRIPTION_TPL = "//*[@class='android.view.ViewGroup'][@instance!='0']" +
+                    "//*[@text='{TITLE}']/following-sibling::*[@text='{DESCRIPTION}']",
             SEARCH_RESULT_ELEMENT = "//*[@class='android.view.ViewGroup']/*[@resource-id='org.wikipedia:id/page_list_item_title']",
             SEARCH_EMPTY_RESULT_ELEMENT = "//*[@text='No results']";
 
@@ -24,6 +26,11 @@ public class SearchPageObject extends MainPageObject
     private static String getResultSearchElement(String substring)
     {
         return SEARCH_RESULT_BY_SUBSTRING_TPL.replace("{SUBSTRING}", substring);
+    }
+
+    private static String getResultByTitleAndDescription(String title, String description) {
+
+        return SEARCH_RESULT_BY_SUBSTRING_AND_DESCRIPTION_TPL.replace("{TITLE}", title).replace("{DESCRIPTION}", description);
     }
     /* TEMPLATE METHODS */
 
@@ -79,6 +86,13 @@ public class SearchPageObject extends MainPageObject
                 15
         );
         return this.getAmountOfElements(By.xpath(SEARCH_RESULT_ELEMENT));
+
+    }
+
+    public void waitForElementByTitleAndDescription(String title, String description) {
+
+        String search_result_xpath = getResultByTitleAndDescription(title, description);
+        this.waitForElementPresent(By.xpath(search_result_xpath), "Cannot find search result with title " + title + " or/and with description " + description, 10);
 
     }
 
